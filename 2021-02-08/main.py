@@ -70,21 +70,14 @@ def round_robin2(teams):
     # Teams fight off against each other
     for team in teams:
         for opponent in teams:
-            winner = ''
-            valid_team = False
             
             # check if both teams are on that list, if yes then skip
             if team == opponent or has_played(team, opponent, games_played):
                 continue
             
             # loop until they choose a right team or draw
-            while not valid_team:
-                winner = input(f'{team} vs {opponent}? ')
-                if winner in [team, opponent, 'draw']:
-                    valid_team = True
-                else:
-                    print(f'Choose: {team}, {opponent}, or draw: ')
-                    
+            winner = find_winner('input')
+            
             # Add each team to list of played games
             games_played[team].append(opponent)
             games_played[opponent].append(team)
@@ -108,6 +101,22 @@ def create_table(score):
         table += f' {team:<20}| {pts:<2} |\n'
     table += f'{"-" * 27}\n'
     return table
+
+def find_winner(method='input'):
+    valid_team = False
+    
+    if method == 'input':
+        while not valid_team:
+            winner = input(f'{team} vs {opponent}? ')
+            if winner in [team, opponent, 'draw']:
+                valid_team = True
+            else:
+                print(f'Choose: {team}, {opponent}, or draw: ')
+    elif method == 'random':
+        pass
+    else:
+        print('Try again')
+
 
 # ask user for the teams
 teams = get_team_list()
