@@ -11,6 +11,9 @@ class Club:
     drinks_served = 0
     
     def __init__(self, name, capacity=100):
+        if not isinstance(capacity, int):
+            raise ValueError('Capacity must be a valid integer > 0')
+            
         self.name = name
         self.capacity = capacity
     
