@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+
+    <h1>Users</h1>
+    <p>Here are all our users:</p>
+    <ul>
+        {% for i in users %}
+            <li data-id="{{ i.id }}">{{ i.email }} - <strong>{{ i.username }}</strong></li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

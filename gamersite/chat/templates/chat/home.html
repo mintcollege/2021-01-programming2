@@ -1,0 +1,21 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+<head>
+    <title>{{ title }} | {{ sitename }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+<header>
+    <a href="http://google.com" target="_blank">
+        <img src="{% static 'images/header-logo.png' %}" alt="Google logo" title="Google"
+             width="153" height="50">
+    </a>
+</header>
+<p>Hi there, <strong>{{ username }}</strong>.</p>
+
+<h1>Chat</h1>
+<p>Say hi to people.</p>
+
+</body>
+</html>
