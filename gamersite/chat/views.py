@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from icecream import ic
 
 from .models import User, Message
+from .forms import CreateMessage
 
 
 def home(request):
@@ -31,26 +32,45 @@ def read_users(request):
 def create_message(request):
     """3 ways to add content to your database"""
     
-    message = 'Food is good.'
+    # message = 'Today is the day.'
     
     # Method 1: create and save at the same time
     # Message.objects.create(username='jeff321', message=message, userage=22)
     
     # Method 2: uses ** which "extracts" the contents of the data variable
-    data = {
-        'message': message,
-        'username': 'martin',
-        'userage': 99,
-        # 'timezone': '+08:00'
-    }
-    Message.objects.create(**data)
+    # data = {
+    #     'message': message,
+    #     'username': 'Jennifer',
+    #     'userage': 22,
+    # }
+    # Message.objects.create(**data)
     # Using **data is equivalent to:
     # Message.objects.create(username='jeff321', message=message, userage=22)
     
     # Method 3: manually save the message instead of automatically (Method 1)
     # row = Message(**data)
     # row.save()
-    return render(request, 'chat/message_created.html', data)
+    
+    # Save the form data sent by the user
+    if request.method == 'post':
+        # Save the form
+        form = CreateMessage(request.POST)
+        if form.is_valid():
+            # Save the data here
+            data = {
+                'message': form.cleaned_data['message'],
+                'username': form.cleaned_data['username'],
+                'userage': form.cleaned_data.get('userage', 0),
+            }
+            Message.objects.create(**data)
+    else:
+        # Create the form to show to the user
+        form = CreateMessage()
+        
+    context = {
+        'form': form
+    }
+    return render(request, 'chat/create-message.html', context)
 
 
 def read_messages(request):
