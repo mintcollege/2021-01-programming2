@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message by {{ message.username }}</title>
+</head>
+<body>
+
+<h1>Message id: {{ message.id }} </h1>
+<table>
+    <tbody>
+        <tr>
+            <td>Username</td>
+            <td>{{ message.username }}</td>
+        </tr>
+        <tr>
+            <td>Message</td>
+            <td>{{ message.message }}</td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>{{ message.userage }}</td>
+        </tr>
+        <tr>
+            <td>Created</td>
+            <td>{{ message.created_at }}</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

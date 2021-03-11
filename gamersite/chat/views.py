@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import ObjectDoesNotExist
 from icecream import ic
 
 from .models import User, Message
@@ -84,3 +85,44 @@ def read_messages(request):
         'allmessages': messages
     }
     return render(request, 'chat/messages.html', context)
+
+
+def read_message(request, pk):
+    try:
+        # SQL
+        # SELECT id, username FROM chat_message WHERE id = 8;
+        msg = Message.objects.get(id=pk)
+        context = {
+            'message': msg,
+        }
+        return render(request, 'chat/message-detail.html', context)
+    except ObjectDoesNotExist:
+        return render(request, 'chat/does-not-exist.html')
+
+
+def delete_message(request, pk):
+    try:
+        # hard delete
+        # SQL
+        # SELECT * FROM chat_message WHERE id = 8;
+        msg = Message.objects.get(id=pk)
+        # SQL
+        # DELETE FROM chat_message WHERE id = 8;
+        msg.delete()
+        return render(request, 'chat/message-deleted.html')
+    except ObjectDoesNotExist:
+        return render(request, 'chat/does-not-exist.html')
+    
+    
+def update_message(request, pk):
+    try:
+        msg = Message.objects.get(id=pk)
+        ic(vars(msg))
+        msg.username = 'Sophie'
+        msg.message = 'This is a new message'
+        msg.save()
+        ic(vars(msg))
+        return render(request, 'chat/message-updated.html')
+    except ObjectDoesNotExist:
+        return render(request, 'chat/does-not-exist.html')
+    
