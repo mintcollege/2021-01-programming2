@@ -52,7 +52,7 @@ def create_message(request):
     # row.save()
     
     # Save the form data sent by the user
-    if request.method == 'post':
+    if request.method == 'POST':
         # Save the form
         form = CreateMessage(request.POST)
         if form.is_valid():
@@ -62,15 +62,20 @@ def create_message(request):
                 'username': form.cleaned_data['username'],
                 'userage': form.cleaned_data.get('userage', 0),
             }
+            # Creates the object and saves at the same time
             Message.objects.create(**data)
+            # Same as above except you save it manually
+            # msg = Message(**data)
+            # msg.save()
+            return render(request, 'chat/message_created.html', data)
     else:
         # Create the form to show to the user
         form = CreateMessage()
         
-    context = {
-        'form': form
-    }
-    return render(request, 'chat/create-message.html', context)
+        context = {
+            'form': form
+        }
+        return render(request, 'chat/create-message.html', context)
 
 
 def read_messages(request):
